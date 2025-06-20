@@ -34,6 +34,11 @@
     </style>
   </head>
   <body>
+    <input id="nameInput" placeholder="名前を入力" />
+    <input id="msgInput" placeholder="メッセージを入力" />
+    <button id="sendBtn">送信</button>
+    <div id="chatLog"></div>
+
     <div class="chat">
       <ul class="messages"></ul>
       <form class="form">
@@ -44,10 +49,9 @@
 
     <script>
       function main() {
-        const myId = self.crypto.randomUUID().substr(0, 8)
-
         const host = location.origin.replace(/^http/, 'ws')
         const ws = new WebSocket(host + '/ws')
+        const myId = self.crypto.randomUUID().substr(0, 8)
 
         const form = document.querySelector('.form')
 
@@ -55,28 +59,21 @@
           e.preventDefault()
           const input = document.querySelector('.input')
           const text = input.value
-          ws.send(myId + ': ' + text)
+          ws.send(JSON.stringify({ id: myId, text }))
           input.value = ''
           input.focus()
         }
 
         ws.onmessage = function (msg) {
           const response = msg.data
-          // 6a7fdb38: yoge!!
-          const [id, text] = response.split(': ')
-
+          const { id, text } = JSON.parse(msg.data)
           const messageList = document.querySelector('.messages')
           const li = document.createElement('li')
-          li.textContent = response
-          document.createElement('img')
-          const img = document.createElement('img')
-          img.src = `https://api.dicebear.com/9.x/rings/svg?seed=${id}`
-          img.alt = 'Dice'
-          img.style.width = '20px'
-          img.style.height = '20px'
-          img.style.verticalAlign = 'middle'
-          li.prepend(img)
-
+          if (id === myId) {
+            li.textContent = `(${id})自分:` + text
+          } else {
+            li.textContent = id + ': ' + text
+          }
           messageList.appendChild(li)
         }
 
