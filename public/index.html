@@ -52,29 +52,30 @@
         const myId = self.crypto.randomUUID().substr(0, 8)
 
         const form = document.querySelector('.form')
+        const name = nameInput.value || '匿名'
 
         form.onsubmit = function (e) {
           e.preventDefault()
           const input = document.querySelector('.input')
           const text = input.value
-          ws.send(JSON.stringify({ id: myId, text }))
+          ws.send(JSON.stringify({ id: myId,name, text }))
           input.value = ''
           input.focus()
         }
 
         ws.onmessage = function (msg) {
           const response = msg.data
-          const { id, text } = JSON.parse(msg.data)
+          const { id,name, text } = JSON.parse(msg.data)
           const messageList = document.querySelector('.messages')
           const inputName= document.getElementById('nameInput') // ← HTMLから取得
 
-          const name = nameInput.value || '匿名'
+          
 
           const li = document.createElement('li')
           if (id === myId) {
             li.textContent = `(${id})自分:` + text
           } else {
-            li.textContent = id + ': ' + text
+            li.textContent = `${id} (${name}):`+text
 
 
           }
