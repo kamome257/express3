@@ -52,12 +52,13 @@
         const myId = self.crypto.randomUUID().substr(0, 8)
 
         const form = document.querySelector('.form')
-        const name = nameInput.value || '匿名'
+    
 
         form.onsubmit = function (e) {
           e.preventDefault()
           const input = document.querySelector('.input')
           const text = input.value
+          const name = nameInput.value || '匿名'
           ws.send(JSON.stringify({ id: myId,name, text }))
           input.value = ''
           input.focus()
