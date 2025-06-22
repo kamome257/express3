@@ -34,16 +34,11 @@
     </style>
   </head>
   <body>
-    <input id="nameInput" placeholder="名前を入力" />
-    <input id="msgInput" placeholder="メッセージを入力" />
-    <button id="sendBtn">送信</button>
-    <div id="chatLog"></div>
-
+    
     <div class="chat">
       <ul class="messages"></ul>
       <input id="nameInput" placeholder="名前を入力" />
-      <input id="msgInput" placeholder="メッセージを入力" />
-      <button id="sendBtn">送信</button>
+      
       <form class="form">
         <input class="input" autocomplete="off" />
         <button class="submit">Send</button>
@@ -75,7 +70,7 @@
           if (id === myId) {
             li.textContent = `(${id})自分:` + text
           } else {
-            li.textContent = id + ': ' + text
+            li.textContent = id + nameInput+': ' + text
           }
           messageList.appendChild(li)
         }
