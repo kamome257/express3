@@ -66,11 +66,15 @@
           const response = msg.data
           const { id, text } = JSON.parse(msg.data)
           const messageList = document.querySelector('.messages')
+          const inputName= document.querySelector('.nameInput')
+          const name = nameInput.value || '匿名'
+
           const li = document.createElement('li')
           if (id === myId) {
             li.textContent = `(${id})自分:` + text
           } else {
-            li.textContent = id + nameInput+': ' + text
+            li.textContent = id + name + ': ' + text
+
           }
           messageList.appendChild(li)
         }
