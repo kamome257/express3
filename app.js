@@ -1,4 +1,4 @@
-const express = require('express')
+/*const express = require('express')
 const expressWs = require('express-ws')
 
 const app = express()
@@ -30,4 +30,40 @@ app.ws('/ws', (ws, req) => {
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
+}) */
+
+const dgram = require('dgram')
+const server = dgram.createSocket('udp4')
+
+server.on('error', (err) => {
+  console.error(`Server error:\n${err.stack}`)
+  server.close()
 })
+
+server.on('message', (msg, rinfo) => {
+  console.log(`Received: ${msg} from ${rinfo.address}:${rinfo.port}`)
+
+  // クライアントに返信する（エコー）
+  server.send(msg, rinfo.port, rinfo.address, (err) => {
+    if (err) console.error('Send error:', err)
+  })
+})
+
+server.on('listening', () => {
+  const address = server.address()
+  console.log(`UDP server listening on ${address.address}:${address.port}`)
+})
+
+server.bind(41234) // 任意のポート番号
+
+const dgram = require('dgram')
+const client = dgram.createSocket('udp4')
+
+const message = Buffer.from('Hello UDP Server!')
+
+client.send(message, 41234, 'localhost', (err) => {
+  if (err) console.error('Send error:', err)
+  else console.log('Message sent')
+  client.close()
+})
+
