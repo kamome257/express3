@@ -45,7 +45,27 @@
       </form>
     </div>
 
+    <!-- これはGUIのテストの丸です -->
+    <canvas id="canvas" width="400" height="150" style="border:lpx solid #ccc;"></canvas>
+
     <script>
+      <!-- これはGUIのテストの丸です -->
+      const canvas = document.getElementById("canvas");
+  const ctx = canvas.getContext("2d");
+  let x = 0;
+
+  function drawCircle() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.arc(x, 75, 20, 0, Math.PI * 2);
+    ctx.fillStyle = "skyblue";
+    ctx.fill();
+    ctx.closePath();
+    x = (x + 2) % canvas.width; // 右に移動して、端で折り返す
+    requestAnimationFrame(drawCircle);
+  }
+      
+
       function main() {
         const host = location.origin.replace(/^http/, 'ws')
         const ws = new WebSocket(host + '/ws')
