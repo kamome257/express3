@@ -1,4 +1,4 @@
-/*const express = require('express')
+const express = require('express')
 const expressWs = require('express-ws')
 
 const app = express()
@@ -30,9 +30,9 @@ app.ws('/ws', (ws, req) => {
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
-}) */
+}) 
 
-const dgram = require('dgram')
+/*const dgram = require('dgram')
 const server = dgram.createSocket('udp4')
 
 server.on('error', (err) => {
@@ -65,5 +65,5 @@ client.send(message, 41234, 'localhost', (err) => {
   if (err) console.error('Send error:', err)
   else console.log('Message sent')
   client.close()
-})
+})*/
 
